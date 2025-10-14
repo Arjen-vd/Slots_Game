@@ -9,8 +9,8 @@ def slots(geld):
     print("=  Inzet $1  =")
     print("==============")
     print("=  000 = 2   =")
-    print("=  *** = 3  =")
-    print("=  $$$ = 5  =")
+    print("=  *** = 3   =")
+    print("=  $$$ = 5   =")
     print("==============")
     while True:
         try:
