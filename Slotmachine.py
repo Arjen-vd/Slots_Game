@@ -8,7 +8,7 @@ def slots():
         data = json.load(f)
     print("\nWelkom bij Fruit Blitz Royale")
     print("Elke jackpot wordt vermenigvuldigd met uw inzet!")
-    print(f"Uw huidige saldo is: {data["geld"]}")
+    print(f"Uw huidige saldo is: {round(data["geld"],2)}")
     print("==============")
     print("=  Inzet $1  =")
     print("==============")
@@ -18,12 +18,12 @@ def slots():
     print("==============")
     while True:
         try:
-            keuze = float(input("Wat is je inzet? (1$-10$) (99 om te stoppen) "))
+            keuze = float(input(f"Wat is je inzet? (1$-${data["max_bet"]}) (99 om te stoppen) "))
             if keuze == 99:
                 break
             elif keuze > data["geld"]:
                 print("Niet genoeg geld!")
-            elif keuze > 10:
+            elif keuze > float(data["max_bet"]):
                 print("Ongeldige invoer!")
             elif keuze < 1:
                 print("Ongeldige invoer!")
