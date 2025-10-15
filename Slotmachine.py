@@ -1,21 +1,27 @@
 import random
+import json
 
 
 
-def slots(geld):
+def slots():
+    with open("config.json", "r") as f:
+        data = json.load(f)
     print("\nWelkom bij Fruit Blitz Royale")
     print("Elke jackpot wordt vermenigvuldigd met uw inzet!")
+    print(f"Uw huidige saldo is: {data["geld"]}")
     print("==============")
     print("=  Inzet $1  =")
     print("==============")
-    print("=  000 = 2   =")
-    print("=  *** = 3   =")
-    print("=  $$$ = 5   =")
+    print("=  000 = 5   =")
+    print("=  *** = 10  =")
+    print("=  $$$ = 15  =")
     print("==============")
     while True:
         try:
-            keuze = float(input("Wat is je inzet? (1$-10$) "))
-            if keuze > geld:
+            keuze = float(input("Wat is je inzet? (1$-10$) (99 om te stoppen) "))
+            if keuze == 99:
+                return()
+            elif keuze > data["geld"]:
                 print("Niet genoeg geld!")
             elif keuze > 10:
                 print("Ongeldige invoer!")
@@ -27,16 +33,22 @@ def slots(geld):
                 random2 = random.choice(sloticons)
                 random3 = random.choice(sloticons)
                 if random1 == "0" and random2 == "0" and random3 == "0":
-                    winst = 2 * keuze
-                elif random1 == "*" and random2 == "*" and random3 == "*":
-                    winst = 3 * keuze
-                elif random1 == "$" and random2 == "$" and random3 == "$":
                     winst = 5 * keuze
+                elif random1 == "*" and random2 == "*" and random3 == "*":
+                    winst = 10 * keuze
+                elif random1 == "$" and random2 == "$" and random3 == "$":
+                    winst = 15 * keuze
                 else:
                     winst = 0
-                geld = geld - keuze + winst
-                if geld <= 0:
-                    break
+                data["geld"] = data["geld"] - keuze + winst
+                with open("config.json", "w") as f:
+                    json.dump(data, f)
+
+                if data["geld"] <= 0:
+                    data["geld"] = 0
+                    with open("config.json", "w") as f:
+                        json.dump(data, f)
+                    return()
                 else:
                     print("=============")
                     print("=           =")
@@ -44,7 +56,7 @@ def slots(geld):
                     print("=           =")
                     print("=============")
                     print(f"WINST: ${winst}")
-                    print(f"Je hebt nog {round(geld, 2)} euro over")
+                    print(f"Je hebt nog ${round(data["geld"], 2)} over")
         except ValueError:
             print("Ongeldige invoer")
 
