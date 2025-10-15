@@ -1,5 +1,6 @@
 ('C:\\Users\\arjen\\Desktop\\Slots_Game\\build\\main\\PYZ-00.pyz',
- [('Slotmachine',
+ [('Shop', 'C:\\Users\\arjen\\Desktop\\Slots_Game\\Shop.py', 'PYMODULE'),
+  ('Slotmachine',
    'C:\\Users\\arjen\\Desktop\\Slots_Game\\Slotmachine.py',
    'PYMODULE'),
   ('__future__',

@@ -20,7 +20,7 @@ def slots():
         try:
             keuze = float(input("Wat is je inzet? (1$-10$) (99 om te stoppen) "))
             if keuze == 99:
-                return()
+                break
             elif keuze > data["geld"]:
                 print("Niet genoeg geld!")
             elif keuze > 10:
@@ -33,11 +33,11 @@ def slots():
                 random2 = random.choice(sloticons)
                 random3 = random.choice(sloticons)
                 if random1 == "0" and random2 == "0" and random3 == "0":
-                    winst = 5 * keuze
+                    winst = 5 * keuze * float(data["multi"])
                 elif random1 == "*" and random2 == "*" and random3 == "*":
-                    winst = 10 * keuze
+                    winst = 10 * keuze * float(data["multi"])
                 elif random1 == "$" and random2 == "$" and random3 == "$":
-                    winst = 15 * keuze
+                    winst = 15 * keuze * float(data["multi"])
                 else:
                     winst = 0
                 data["geld"] = data["geld"] - keuze + winst
@@ -55,7 +55,7 @@ def slots():
                     print(f"=   {str(random1)} {str(random2)} {str(random3)}   =")
                     print("=           =")
                     print("=============")
-                    print(f"WINST: ${winst}")
+                    print(f"WINST: ${round(winst,2)}")
                     print(f"Je hebt nog ${round(data["geld"], 2)} over")
         except ValueError:
             print("Ongeldige invoer")
