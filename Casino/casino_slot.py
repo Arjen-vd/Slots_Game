@@ -1,5 +1,8 @@
+from time import sleep
+
 from Scripts.config_path import CONFIG_PATH, PLAYER_PATH
 import random
+import time
 import json
 
 def slots():
@@ -34,10 +37,11 @@ def slots():
     print("=============")
     print("=   BLITZ   =")
     print("=============")
-    print(f"000 = {2 * keuze * multi}")
-    print(f"*** = {10 * keuze * multi}")
-    print(f"$$$ = {50 * keuze * multi}")
-    print(f"777 = {1000 * keuze * multi}")
+    print(f"000 = {round(10 * keuze * multi, 2)}")
+    print(f"*** = {round(15 * keuze * multi, 2)}")
+    print(f"$$$ = {round(50 * keuze * multi, 2)}")
+    print(f"777 = {round(1000 * keuze * multi, 2)}")
+    print(f"††† = VERLIES 50% VAN JE GELD: {player["geld"]}")
     print("=============")
 
 
@@ -51,12 +55,13 @@ def slots():
             print("Ongeldige keuze, probeer opnieuw.\n")
             return slots()
 
-        sloticons = ["0", "*", "$", "7"]
+        sloticons = ["0", "*", "$", "7","†"]
         weights = [
             config["kans_0"],
             config["kans_*"],
             config["kans_$"],
-            config["kans_7"]
+            config["kans_7"],
+            config["kans_kruis"]
         ]
 
         random1 = random.choices(sloticons, weights, k=1)[0]
@@ -64,23 +69,27 @@ def slots():
         random3 = random.choices(sloticons, weights, k=1)[0]
 
         if random1 == "0" and random2 == "0" and random3 == "0":
-            winst = 2 * keuze * float(config["multi"])
-        elif random1 == "*" and random2 == "*" and random3 == "*":
             winst = 10 * keuze * float(config["multi"])
+        elif random1 == "*" and random2 == "*" and random3 == "*":
+            winst = 15 * keuze * float(config["multi"])
         elif random1 == "$" and random2 == "$" and random3 == "$":
             winst = 50 * keuze * float(config["multi"])
         elif random1 == "7" and random2 == "7" and random3 == "7":
             winst = 1000 * keuze * float(config["multi"])
+        elif random1 == "†" and random2 == "†" and random3 == "†":
+            player["geld"] = player["geld"] / 2
+            winst = 0
         else:
             winst = 0
 
         player["geld"] = player["geld"] - keuze + winst
+
         if player["geld"] <= 0:
-            player["geld"] = 0
             with open(PLAYER_PATH, "w") as f:
-                json.dump(player, f)
+                player["geld"] = player["geld"]
+                json.dump(player,f)
             print("Je hebt geen geld meer over!")
-            return
+            return()
 
         with open(PLAYER_PATH, "w") as f:
             json.dump(player, f)
@@ -93,3 +102,4 @@ def slots():
         print(f"Je inzet is: {keuze}")
         print(f"WINST: ${round(winst,2)}")
         print(f"Je hebt nog ${round(player['geld'], 2)} over")
+        time.sleep(1)

@@ -31,30 +31,16 @@ def main_casino():
  """)
         print("Welkom in het Casino!")
         print(f"Uw huidige saldo is: ${round(player["geld"],2)}")
-        print("Waar wilt u naar toe? (1-5)")
+        print("Waar wilt u naar toe? (1-3)")
         print("1. Fruitmachine")
         print("2. Shop")
-        print("3. Reset")
-        print("4. Uitgang")
+        print("3. Uitgang")
         keuze = input("Keuze: ")
         if keuze == "1":
             Casino.casino_slot.slots()
         elif keuze == "2":
             Casino.casino_shop.main()
         elif keuze == "3":
-            config["multi"] = 1.0
-            config["multi_cost"] = 50
-            config["max_bet"] = 10
-            config["max_bet_cost"] = 1000
-            config["color"] = 0
-            player["geld"] = 100
-            with open(CONFIG_PATH, "w") as f:
-                json.dump(config, f)
-            with open(PLAYER_PATH, "w") as f:
-                json.dump(player, f)
-            print("\nJe game is gereset!")
-
-        elif keuze == "4":
             break
         else:
             print("\nOnjuiste invoer!\n")

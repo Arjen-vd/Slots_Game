@@ -8,22 +8,13 @@ def main():
             config = json.load(f)
         with open(PLAYER_PATH, "r") as f:
             player = json.load(f)
-            if config["color"] == 1:
-                print("\033[92m")  # Groen
-            elif config["color"] == 2:
-                print("\033[94m")  # Blue
-            elif config["color"] == 3:
-                print("\033[95m")  # Roze
-            else:
-                print("\033[0m")
         print("Welkom in de shop!")
         print(f"Uw huidige saldo is: ${round(player["geld"],2)}")
-        print("Wat wilt u kopen? (1-3)")
+        print("Wat wilt u kopen? (1-4)")
         print(f"1. ${round(config["multi_cost"],2)}: Multiplier * 1.1")
         print(f"2. ${round(config["max_bet_cost"],2)}: Max bet * 1.5")
-        print("3. Win de game: $100.000.000")
-        print("4. Stats")
-        print("5. Terug")
+        print("3. Stats")
+        print("4. Terug")
         keuze = input("Keuze: ")
 
         # Multiplier kopen
@@ -54,22 +45,17 @@ def main():
                 with open(PLAYER_PATH, "w") as f:
                     json.dump(player, f)
 
-        elif keuze == "3":
-            if player["geld"] > 100000000:
-                for line in range(1000):
-                    print("YOU WON")
-                    time.sleep(0.1)
-                exit()
-            else:
-                break
-
         #Stats bekijken
-        elif keuze == "4":
+        elif keuze == "3":
+            print("----======================----")
             print(f"Je huidige multiplier is {round(config["multi"],2)}")
             print(f"Je huidige max bet is {config["max_bet"]}")
+            print("----======================----\n")
 
         #Terug
-        elif keuze == "5":
+        elif keuze == "4":
             return()
         else:
-            print("\nOnjuiste invoer!\n")
+            print("----======================----")
+            print("Onjuiste invoer!")
+            print("----======================----\n")
